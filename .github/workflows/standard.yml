@@ -1,0 +1,33 @@
+name: Auto Fix and Commit
+
+on:
+  push:
+    branches:
+      - main  # Cambia esto por la rama en la que deseas activar la acción
+
+jobs:
+  auto-fix-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2  # Para clonar el repositorio
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14  # Cambia la versión de Node.js si es necesario
+
+    - name: Install Dependencies
+      run: npm install  # Asegúrate de que esto es necesario para tu proyecto
+
+    - name: Auto Fix with Standard
+      run: npx standard --fix
+
+    - name: Commit Changes
+      run: |
+        git config --global user.email "41452910+usarral@users.noreply.github.com"
+        git config --global user.name "[BOT] Usarral"
+        git add .
+        git commit -m "Auto fix with standard"
+        git push
